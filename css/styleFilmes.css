@@ -1,0 +1,140 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  
+  body {
+    background-color: #0F171E;
+    color: #F1F1F1;
+    padding: 30px 40px;
+  }
+  
+  h1 {
+    color: #FFFFFF;
+    font-size: 28px;
+    margin-bottom: 24px;
+    border-left: 5px solid #00A8E1;
+    padding-left: 14px;
+  }
+  
+  /* ---------- Formulário ---------- */
+  
+  #form-filme {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    background-color: #1A242D;
+    padding: 20px;
+    border-radius: 6px;
+    margin-bottom: 30px;
+  }
+  
+  #form-filme input {
+    background-color: #0F171E;
+    border: 1px solid #33414D;
+    border-radius: 4px;
+    color: #F1F1F1;
+    padding: 10px 12px;
+    font-size: 14px;
+    flex: 1 1 150px;
+  }
+  
+  #form-filme input::placeholder {
+    color: #7A8A96;
+  }
+  
+  #form-filme input:focus {
+    outline: none;
+    border-color: #00A8E1;
+  }
+  
+  #btn-salvar {
+    background-color: #00A8E1;
+    color: #0F171E;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 24px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  #btn-salvar:hover {
+    background-color: #33C1F0;
+  }
+  
+  /* ---------- Tabela ---------- */
+  
+  #tabela-filmes {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1A242D;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  
+  #tabela-filmes thead {
+    background-color: #0F171E;
+  }
+  
+  #tabela-filmes th {
+    text-align: left;
+    padding: 14px 16px;
+    color: #00A8E1;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #33414D;
+  }
+  
+  #tabela-filmes td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #22303A;
+    font-size: 14px;
+  }
+  
+  #tabela-filmes tbody tr {
+    transition: background-color 0.15s ease;
+  }
+  
+  #tabela-filmes tbody tr:hover {
+    background-color: #22303A;
+  }
+  
+  /* ---------- Botões de ação ---------- */
+  
+  #tabela-filmes button {
+    border: none;
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-right: 6px;
+    transition: opacity 0.15s ease;
+  }
+  
+  #tabela-filmes button:hover {
+    opacity: 0.85;
+  }
+  
+  #tabela-filmes button:first-of-type {
+    background-color: #00A8E1;
+    color: #0F171E;
+  }
+  
+  #tabela-filmes button:last-of-type {
+    background-color: #B0233F;
+    color: #FFFFFF;
+  }
+
+  .poster {
+    width: 45px;
+    height: 65px;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+  }

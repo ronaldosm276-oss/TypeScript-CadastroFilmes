@@ -1,14 +1,5 @@
-interface Filme {
-    id: number;
-    titulo: string;
-    diretor: string;
-    ano: number;
-    genero: string;
-    avaliacao: number;
-    capa: string;
-}
-
-let filmes: Filme[] = [
+"use strict";
+let filmes = [
     { id: 1, titulo: "Interestelar", diretor: "Christopher Nolan", ano: 2014, genero: "Ficção Científica", avaliacao: 9.2, capa: "images/interestelar.jpg" },
     { id: 2, titulo: "Cidade de Deus", diretor: "Fernando Meirelles", ano: 2002, genero: "Drama", avaliacao: 9.5, capa: "images/cidade-de-deus.jpg" },
     { id: 3, titulo: "Tropa de Elite", diretor: "José Padilha", ano: 2007, genero: "Ação", avaliacao: 9.1, capa: "images/tropa-de-elite.jpg" },
@@ -20,22 +11,18 @@ let filmes: Filme[] = [
     { id: 9, titulo: "A Origem", diretor: "Christopher Nolan", ano: 2010, genero: "Ficção Científica", avaliacao: 9.0, capa: "images/origem.jpg" },
     { id: 10, titulo: "Que Horas Ela Volta?", diretor: "Anna Muylaert", ano: 2015, genero: "Drama", avaliacao: 8.2, capa: "images/que-horas-ela-volta.jpg" }
 ];
-
-let proximoId: number = 11;
-let idEmEdicao: number | null = null;
-
-const form = document.getElementById("form-filme") as HTMLFormElement;
-const inputTitulo = document.getElementById("titulo") as HTMLInputElement;
-const inputDiretor = document.getElementById("diretor") as HTMLInputElement;
-const inputAno = document.getElementById("ano") as HTMLInputElement;
-const inputGenero = document.getElementById("genero") as HTMLInputElement;
-const inputAvaliacao = document.getElementById("avaliacao") as HTMLInputElement;
-const corpoTabela = document.getElementById("corpo-tabela") as HTMLTableSectionElement;
-const btnSalvar = document.getElementById("btn-salvar") as HTMLButtonElement;
-
-function renderizarTabela(): void {
+let proximoId = 11;
+let idEmEdicao = null;
+const form = document.getElementById("form-filme");
+const inputTitulo = document.getElementById("titulo");
+const inputDiretor = document.getElementById("diretor");
+const inputAno = document.getElementById("ano");
+const inputGenero = document.getElementById("genero");
+const inputAvaliacao = document.getElementById("avaliacao");
+const corpoTabela = document.getElementById("corpo-tabela");
+const btnSalvar = document.getElementById("btn-salvar");
+function renderizarTabela() {
     corpoTabela.innerHTML = "";
-
     for (const filme of filmes) {
         const linha = document.createElement("tr");
         linha.innerHTML = `
@@ -53,10 +40,8 @@ function renderizarTabela(): void {
         corpoTabela.appendChild(linha);
     }
 }
-
-function cadastrarOuAtualizar(evento: Event): void {
+function cadastrarOuAtualizar(evento) {
     evento.preventDefault();
-
     const dados = {
         titulo: inputTitulo.value.trim(),
         diretor: inputDiretor.value.trim(),
@@ -65,52 +50,43 @@ function cadastrarOuAtualizar(evento: Event): void {
         avaliacao: Number(inputAvaliacao.value),
         capa: "images/sem-capa.jpg"
     };
-
     if (!dados.titulo || !dados.diretor || !dados.genero) {
         alert("Preencha todos os campos.");
         return;
     }
-
     if (idEmEdicao === null) {
-        const novoFilme: Filme = { id: proximoId, ...dados };
+        const novoFilme = { id: proximoId, ...dados };
         filmes.push(novoFilme);
         proximoId++;
-    } else {
-        filmes = filmes.map(f =>
-            f.id === idEmEdicao ? { ...f, ...dados } : f
-        );
+    }
+    else {
+        filmes = filmes.map(f => f.id === idEmEdicao ? { ...f, ...dados } : f);
         idEmEdicao = null;
         btnSalvar.textContent = "Cadastrar";
     }
-
     form.reset();
     renderizarTabela();
 }
-
-function editarFilme(id: number): void {
+function editarFilme(id) {
     const filme = filmes.find(f => f.id === id);
-    if (!filme) return;
-
+    if (!filme)
+        return;
     inputTitulo.value = filme.titulo;
     inputDiretor.value = filme.diretor;
     inputAno.value = String(filme.ano);
     inputGenero.value = filme.genero;
     inputAvaliacao.value = String(filme.avaliacao);
-
     idEmEdicao = id;
     btnSalvar.textContent = "Atualizar";
 }
-
-function excluirFilme(id: number): void {
+function excluirFilme(id) {
     const confirmar = confirm("Excluir este filme?");
-    if (!confirmar) return;
-
+    if (!confirmar)
+        return;
     filmes = filmes.filter(f => f.id !== id);
     renderizarTabela();
 }
-
 form.addEventListener("submit", cadastrarOuAtualizar);
 renderizarTabela();
-
-(window as any).editarFilme = editarFilme;
-(window as any).excluirFilme = excluirFilme;
+window.editarFilme = editarFilme;
+window.excluirFilme = excluirFilme;
