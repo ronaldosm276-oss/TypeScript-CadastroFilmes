@@ -32,27 +32,57 @@ const inputGenero = document.getElementById("genero") as HTMLInputElement;
 const inputAvaliacao = document.getElementById("avaliacao") as HTMLInputElement;
 const corpoTabela = document.getElementById("corpo-tabela") as HTMLTableSectionElement;
 const btnSalvar = document.getElementById("btn-salvar") as HTMLButtonElement;
+const inputFiltroTitulo = document.getElementById("filtro-titulo") as HTMLInputElement;
+const selectFiltroGenero = document.getElementById("filtro-genero") as HTMLSelectElement;
 
-function renderizarTabela(): void {
+function renderizarTabela(listaParaExibir: Filme[] = filmes): void {
     corpoTabela.innerHTML = "";
 
-    for (const filme of filmes) {
+    for (const filme of listaParaExibir) {
         const linha = document.createElement("tr");
         linha.innerHTML = `
-  <td><img src="${filme.capa}" alt="${filme.titulo}" class="poster"></td>
-  <td>${filme.titulo}</td>
-  <td>${filme.diretor}</td>
-  <td>${filme.ano}</td>
-  <td>${filme.genero}</td>
-  <td>${filme.avaliacao.toFixed(1)}</td>
-  <td>
-    <button onclick="editarFilme(${filme.id})">Editar</button>
-    <button onclick="excluirFilme(${filme.id})">Excluir</button>
-  </td>
-`;
+            <td><img src="${filme.capa}" alt="${filme.titulo}" class="poster"></td>
+            <td>${filme.titulo}</td>
+            <td>${filme.diretor}</td>
+            <td>${filme.ano}</td>
+            <td>${filme.genero}</td>
+            <td>${filme.avaliacao.toFixed(1)}</td>
+            <td>
+                <button onclick="editarFilme(${filme.id})">Editar</button>
+                <button onclick="excluirFilme(${filme.id})">Excluir</button>
+            </td>
+        `;
         corpoTabela.appendChild(linha);
     }
 }
+
+function aplicarFiltros(): void {
+    const textoBusca = inputFiltroTitulo.value.toLowerCase().trim();
+    const generoSelecionado = selectFiltroGenero.value;
+
+    const filmesFiltrados = filmes.filter(filme => {
+        const bateTitulo = filme.titulo.toLowerCase().includes(textoBusca);
+        const bateGenero = generoSelecionado === "" || filme.genero === generoSelecionado;
+        return bateTitulo && bateGenero;
+    });
+
+    renderizarTabela(filmesFiltrados);
+}
+
+function popularFiltroGenero(): void {
+    const generosUnicos = [...new Set(filmes.map(f => f.genero))];
+
+    selectFiltroGenero.innerHTML = '<option value="">Todos os gêneros</option>';
+    for (const genero of generosUnicos) {
+        const opcao = document.createElement("option");
+        opcao.value = genero;
+        opcao.textContent = genero;
+        selectFiltroGenero.appendChild(opcao);
+    }
+}
+
+
+
 
 function cadastrarOuAtualizar(evento: Event): void {
     evento.preventDefault();
@@ -108,9 +138,13 @@ function excluirFilme(id: number): void {
     filmes = filmes.filter(f => f.id !== id);
     renderizarTabela();
 }
+inputFiltroTitulo.addEventListener("input", aplicarFiltros);
+selectFiltroGenero.addEventListener("change", aplicarFiltros);
 
 form.addEventListener("submit", cadastrarOuAtualizar);
+
 renderizarTabela();
+popularFiltroGenero();
 
 (window as any).editarFilme = editarFilme;
 (window as any).excluirFilme = excluirFilme;
