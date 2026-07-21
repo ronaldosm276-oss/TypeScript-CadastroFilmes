@@ -14,7 +14,7 @@
 
         <img src="images/logo.png" id="logo">
         <h1>AVR <br> Catalógo - Cadastro de Filmes</h1>
-        
+
     </div>
 
     <form id="form-filme">
@@ -25,7 +25,7 @@
         <input type="number" id="avaliacao" placeholder="Avaliação (0-10)" min="0" max="10" step="0.1" required>
         <button type="submit" id="btn-salvar">Cadastrar</button>
     </form>
-    
+
     <div class="filtros">
         <input type="text" id="filtro-titulo" placeholder="Buscar por título...">
         <select id="filtro-genero">
@@ -36,13 +36,13 @@
     <table id="tabela-filmes">
         <thead>
             <tr>
-            <th>Capa</th>
-            <th>Título</th>
-            <th>Diretor</th>
-            <th>Ano</th>
-            <th>Gênero</th>
-            <th>Avaliação</th>
-            <th>Ações</th>
+                <th>Capa</th>
+                <th id="th-titulo" data-coluna="titulo">Título <span class="seta"></span></th>
+                <th id="th-diretor" data-coluna="diretor">Diretor <span class="seta"></span></th>
+                <th id="th-ano" data-coluna="ano">Ano <span class="seta"></span></th>
+                <th id="th-genero" data-coluna="genero">Gênero <span class="seta"></span></th>
+                <th id="th-avaliacao" data-coluna="avaliacao">Avaliação <span class="seta"></span></th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody id="corpo-tabela"></tbody>

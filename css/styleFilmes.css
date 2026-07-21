@@ -195,3 +195,16 @@
 .filtros {
   position: relative;
 }
+
+th[data-coluna] {
+  cursor: pointer;
+  user-select: none;
+}
+
+th[data-coluna]:hover {
+  color: #33C1F0;
+}
+
+.seta {
+  font-size: 11px;
+}

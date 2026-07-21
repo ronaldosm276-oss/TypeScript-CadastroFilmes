@@ -60,11 +60,24 @@ function aplicarFiltros(): void {
     const textoBusca = inputFiltroTitulo.value.toLowerCase().trim();
     const generoSelecionado = selectFiltroGenero.value;
 
-    const filmesFiltrados = filmes.filter(filme => {
+    let filmesFiltrados = filmes.filter(filme => {
         const bateTitulo = filme.titulo.toLowerCase().includes(textoBusca);
         const bateGenero = generoSelecionado === "" || filme.genero === generoSelecionado;
         return bateTitulo && bateGenero;
     });
+
+    if (colunaOrdenada) {
+        filmesFiltrados = filmesFiltrados.sort((a, b) => {
+            const valorA = a[colunaOrdenada!];
+            const valorB = b[colunaOrdenada!];
+
+            const comparacao = typeof valorA === "number" && typeof valorB === "number"
+                ? valorA - valorB
+                : String(valorA).localeCompare(String(valorB));
+
+            return direcaoOrdenacao === "asc" ? comparacao : -comparacao;
+        });
+    }
 
     renderizarTabela(filmesFiltrados);
 }
@@ -116,6 +129,41 @@ function cadastrarOuAtualizar(evento: Event): void {
     form.reset();
     renderizarTabela();
 }
+
+type ChaveOrdenavel = "titulo" | "diretor" | "ano" | "genero" | "avaliacao";
+
+let colunaOrdenada: ChaveOrdenavel | null = null;
+let direcaoOrdenacao: "asc" | "desc" = "asc";
+
+const thsOrdenaveis = document.querySelectorAll<HTMLTableCellElement>("th[data-coluna]");
+
+function ordenarPor(coluna: ChaveOrdenavel): void {
+    if (colunaOrdenada === coluna) {
+        direcaoOrdenacao = direcaoOrdenacao === "asc" ? "desc" : "asc";
+    } else {
+        colunaOrdenada = coluna;
+        direcaoOrdenacao = "asc";
+    }
+
+    atualizarSetas();
+    aplicarFiltros();
+}
+
+function atualizarSetas(): void {
+    thsOrdenaveis.forEach(th => {
+        const seta = th.querySelector(".seta") as HTMLSpanElement;
+        const coluna = th.dataset.coluna;
+
+        seta.textContent = coluna === colunaOrdenada
+            ? (direcaoOrdenacao === "asc" ? "▲" : "▼")
+            : "";
+    });
+}
+
+thsOrdenaveis.forEach(th => {
+    const coluna = th.dataset.coluna as ChaveOrdenavel;
+    th.addEventListener("click", () => ordenarPor(coluna));
+});
 
 function editarFilme(id: number): void {
     const filme = filmes.find(f => f.id === id);
