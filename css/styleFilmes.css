@@ -150,3 +150,48 @@
     height: 120px;
     width: auto;
   }
+
+  /* ---------- Filtros ---------- */
+
+.filtros {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+#filtro-titulo,
+#filtro-genero {
+  background-color: #ffffff;
+  border: 3px solid #33414D;
+  border-radius: 5px;
+  color: #F1F1F1;
+  padding: 10px 14px;
+  font-size: 15px;
+  color: #020202;
+}
+
+#filtro-titulo {
+  flex: 1 1 250px;
+}
+
+#filtro-titulo::placeholder {
+  color: #768b9b;
+}
+
+#filtro-titulo:focus,
+#filtro-genero:focus {
+  outline: none;
+  border-color: #00A8E1;
+}
+
+#filtro-genero {
+  flex: 0 1 200px;
+  cursor: pointer;
+}
+
+/* Ícone de lupa via pseudo-elemento, sem precisar de imagem externa */
+.filtros {
+  position: relative;
+}
