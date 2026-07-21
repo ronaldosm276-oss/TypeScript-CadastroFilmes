@@ -138,3 +138,15 @@
     border-radius: 4px;
     display: block;
   }
+
+  .cabecalho {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  #logo {
+    height: 120px;
+    width: auto;
+  }
