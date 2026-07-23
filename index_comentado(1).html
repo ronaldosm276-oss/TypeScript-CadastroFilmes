@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!-- Declara que este é um documento HTML5 -->
+<html lang="pt-br">
+
+<head>
+    <!-- Configurações que não aparecem na tela, só orientam o navegador -->
+    <meta charset="UTF-8"> <!-- Permite usar acentos e caracteres especiais do português -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ajuda a página a se adaptar a diferentes tamanhos de tela -->
+    <title>Prime Filmes</title> <!-- Texto que aparece na aba do navegador -->
+
+    <!-- Importa o arquivo CSS que estiliza (cores, layout, fontes) toda a página -->
+    <link rel="stylesheet" href="css/styleFilmes.css">
+
+    <!-- Importa o JavaScript JÁ COMPILADO a partir do nosso TypeScript.
+         O navegador não entende .ts, só entende .js — por isso apontamos pro dist/app.js,
+         que é gerado automaticamente quando rodamos "npx tsc" no terminal.
+         "defer" garante que esse script só roda DEPOIS que todo o HTML já carregou,
+         evitando erro de tentar manipular um elemento que ainda não existe na página. -->
+    <script src="dist/app.js" defer></script>
+</head>
+
+<body>
+    <!-- ===== CABEÇALHO: logo + título do sistema ===== -->
+    <div class="cabecalho">
+        <img src="images/logo.png" id="logo">
+        <h1>AVR <br> Catalógo - Cadastro de Filmes</h1>
+    </div>
+
+    <!-- ===== FORMULÁRIO DE CADASTRO/EDIÇÃO =====
+         Esse MESMO formulário é usado tanto para CADASTRAR um filme novo
+         quanto para EDITAR um filme existente — quem decide qual dos dois
+         vai acontecer é a lógica dentro do app.ts (variável idEmEdicao). -->
+    <form id="form-filme">
+        <!-- Cada input tem um "id" único — é assim que o TypeScript encontra
+             e lê o valor de cada campo (document.getElementById) -->
+        <input type="text" id="titulo" placeholder="Título" required>
+        <input type="text" id="diretor" placeholder="Diretor" required>
+        <input type="number" id="ano" placeholder="Ano" required>
+        <input type="text" id="genero" placeholder="Gênero" required>
+        <input type="number" id="avaliacao" placeholder="Avaliação (0-10)" min="0" max="10" step="0.1" required>
+
+        <!-- O texto deste botão muda dinamicamente entre "Cadastrar" e "Atualizar",
+             controlado pelo TypeScript, dependendo se estamos criando ou editando -->
+        <button type="submit" id="btn-salvar">Cadastrar</button>
+    </form>
+
+    <!-- ===== BARRA DE FILTROS =====
+         Não faz parte do CRUD obrigatório — é um dos itens de BÔNUS do trabalho
+         (pesquisa por nome + filtro por gênero) -->
+    <div class="filtros">
+        <!-- Filtra a tabela conforme o usuário digita (evento "input" no app.ts) -->
+        <input type="text" id="filtro-titulo" placeholder="Buscar por título...">
+
+        <!-- Esse <select> começa com só a opção "Todos os gêneros".
+             As outras opções (Drama, Ação, Comédia...) são adicionadas
+             DINAMICAMENTE pelo TypeScript, lendo os gêneros que já existem
+             no array de filmes — por isso aqui no HTML ele nasce quase vazio -->
+        <select id="filtro-genero">
+            <option value="">Todos os gêneros</option>
+        </select>
+    </div>
+
+    <!-- ===== TABELA PRINCIPAL: onde os filmes são exibidos ===== -->
+    <table id="tabela-filmes">
+        <thead>
+            <tr>
+                <th>Capa</th>
+
+                <!-- Estes cabeçalhos são CLICÁVEIS para ordenar a tabela.
+                     O atributo "data-coluna" diz ao TypeScript qual campo do
+                     objeto Filme aquela coluna representa (ex: "titulo", "ano").
+                     O <span class="seta"> começa vazio e é preenchido com
+                     ▲ ou ▼ pelo TypeScript, indicando a direção da ordenação atual. -->
+                <th id="th-titulo" data-coluna="titulo">Título <span class="seta"></span></th>
+                <th id="th-diretor" data-coluna="diretor">Diretor <span class="seta"></span></th>
+                <th id="th-ano" data-coluna="ano">Ano <span class="seta"></span></th>
+                <th id="th-genero" data-coluna="genero">Gênero <span class="seta"></span></th>
+                <th id="th-avaliacao" data-coluna="avaliacao">Avaliação <span class="seta"></span></th>
+
+                <!-- Coluna dos botões Editar/Excluir — não é ordenável, por isso
+                     não tem "data-coluna" nem <span class="seta"> -->
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+        <!-- O <tbody> começa VAZIO de propósito.
+             Todo o conteúdo (as linhas de cada filme) é criado dinamicamente
+             pelo TypeScript, na função renderizarTabela(), toda vez que a
+             página carrega ou os dados mudam (cadastro, edição, exclusão,
+             filtro ou ordenação). -->
+        <tbody id="corpo-tabela"></tbody>
+    </table>
+
+</body>
+
+</html>
